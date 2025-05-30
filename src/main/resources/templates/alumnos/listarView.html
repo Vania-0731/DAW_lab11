@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Listado de Alumnos</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Gestión de Alumnos</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/alumnos/listar}">Listar Alumnos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/alumnos/form}">Nuevo Alumno</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/listar}">Listar Curso</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/form}">Nuevo Curso</a>
+            </li>
+
+        </ul>
+
+        <!-- Formulario de búsqueda -->
+        <form class="form-inline my-2 my-lg-0" th:action="@{/alumnos/listar}" method="get">
+            <input class="form-control mr-sm-2" type="search" name="nombre" placeholder="Buscar por nombre" aria-label="Buscar"
+                   th:value="${param.nombre}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2 th:text="${titulo}">Listado de alumnos</h2>
+
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Semestre</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="alumno : ${alumnos}">
+            <td th:text="${alumno.nombre}"></td>
+            <td th:text="${alumno.correo}"></td>
+            <td th:text="${alumno.semestre}"></td>
+            <td>
+                <a th:if="${alumno.id != null}" th:href="@{/alumnos/form/{id}(id=${alumno.id})}" class="btn btn-sm btn-warning">Editar</a>
+                <a th:href="@{/alumnos/eliminar/{id}(id=${alumno.id})}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('¿Estás seguro de eliminar este alumno?');">Eliminar</a>
+            </td>
+        </tr>
+        <a  th:href="@{/alumnos/form}" class="btn btn-sm btn-warning">Crear Alumno</a>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+
+
